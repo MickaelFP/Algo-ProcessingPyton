@@ -48,9 +48,8 @@ def draw():
     
     drawRacket()
     drawBall()
-    drawBricks()
-    
-    
+    drawBricks(150, 50, 50, 20)
+    drawBricks(250, 50, 50, 20)
     
 def drawRacket():
     global racketX, racketY, racketWidth, racketHeight
@@ -100,15 +99,12 @@ def drawBall():
     
     #draw circle
     circle(ballX, ballY, 2*ballRadius);
+
+#une fonction peut prendre des paremètres
     
-def drawBricks():
+def drawBricks(bX, bY, bW, bH):
     
     global ballX, ballY, ballRadius, ballSpeedX, ballSpeedY, ballAngle
-    
-    bX = 150
-    bY = 50
-    bW = 150
-    bH = 100
     
     rect(bX, bY, bW, bH)
     
