@@ -112,25 +112,22 @@ def drawBricks():
     
     rect(bX, bY, bW, bH)
     
-    #vertical
     if(bX < ballX < bX + bW):
-        print("Aligner Vertical")
         if(bY < ballY + ballRadius < bY + bH and ballSpeedY < 0):
             ballAngle = -ballAngle
             ballY = bY - ballRadius
         elif(bY < ballY - ballRadius < bY + bH and ballSpeedY > 0):
             ballAngle = -ballAngle
             ballY = bY + bH + ballRadius
-    elif(bY < ballY < bY + bH):
-        print("Aligner Horizontal") 
-        if(bX < ballX + ballRadius < bX + bW and ballSpeedX > 0):
+                
+    if(bY < ballY < bY + bH):
+        if(bX < ballX - ballRadius < bX + bW and ballSpeedX > 0):
             ballAngle = PI - ballAngle
-            ballX = bX
-        elif((bX < ballX - ballRadius < bX + bW and ballSpeedX < 0):
-            ballAngle = PI - ballAngle)
+            ballX = bX - ballRadius
+        elif(bX < ballX + ballRadius < bX + bW and ballSpeedX < 0):
+            ballAngle = PI - ballAngle
             ballX = bX + bW + ballRadius
-  
-       
+            
     '''
     if(bY < ballY+ballRadius <  bY+bH and ballSpeedY < 0):
         if(bX < ballX < bX + bW):
