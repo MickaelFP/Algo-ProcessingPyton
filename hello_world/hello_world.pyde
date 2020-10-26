@@ -1,7 +1,12 @@
 ballX = 0
 ballY = 0
-ballSpeedX = 5
-ballSpeedY = 2
+ballSpeedX = 0.5
+ballSpeedY = 0.1
+
+ballSpeed = 0.3
+ballAngle = PI/6
+ballAngleMax = PI/1.9
+
 ballRadius = 5
 
 racketWidth = 50
@@ -9,9 +14,13 @@ racketHeight = 10
 racketX = 0
 racketY = 0
 
+lastFrameTime = 0
+deltaTime = 0
+
 #ici on définit la fonction setup qui sera exécuté comme point d'entré dans mon code
 def setup():
-    global ballX, ballY, ballSpeedX, ballSpeedY, racketX, racketY, racketWidth, racketHeight
+    global ballX, ballY, racketX, racketY, racketWidth, racketHeight
+    global LastFrameTime, deltaTime
     
     #on appel la fonction print pour écrire dans la console
     print("Hello World")
@@ -25,17 +34,25 @@ def setup():
     ballY = height/2
     
     racketX = mouseX - (racketWidth/2)
-    racketY = height - 20
+    racketY = height - 50
+    
+    lastFrameTime = millis()
 
 def draw():
+    global deltaTime, lastFrameTime
+    
     clear()
+    
+    deltaTime = millis() - lastFrameTime
+    lastFrameTime = millis()
+    
     drawRacket()
     drawBall()
 
 def drawRacket():
     global racketX, racketY, racketWidth, racketHeight
     
-    #fill(255)
+    fill(255)
     #draw a rectangle in coords
     # x : mouseX minus half of width
     # y : height of the window minus 20
@@ -43,11 +60,11 @@ def drawRacket():
     # height : 10
     racketX = mouseX - (racketWidth/2)
     rect(racketX, racketY, racketWidth, racketHeight)
-    #rect(mouseX - 25, height - 20, 50, 10)
 
 def drawBall():
-    global ballX, ballY, ballSpeedX, ballSpeedY, ballRadius
+    global ballX, ballY, ballRadius, ballSpeed, ballAngle, ballAngleMax
     global racketX, racketY, racketWidth, racketHeight
+    global deltaTime
     
     #draw circle
     #circle(ballX, height/2, 10);
@@ -55,28 +72,33 @@ def drawBall():
     
     #ballX = ballX + ballSpeedX
     #ballY = ballY + ballSpeedY
-    ballX += ballSpeedX 
-    ballY += ballSpeedY
+    speedX = cos(ballAngle) * ballSpeed * deltaTime
+    speedY = sin(ballAngle) * ballSpeed * deltaTime
+    ballX += speedX
+    ballY -= speedY
     
     #haut et bas
     if(ballY-ballRadius < 0):
-        ballSpeedY *= -1
+        ballAngle = - ballAngle
         ballY = ballRadius
     elif(ballY+ballRadius > height):
-        ballSpeedY *= -1
+        ballAngle = - ballAngle
         ballY = height-ballRadius
     
     #droite et gauche
     if(ballX+ballRadius > width):
-        ballSpeedX *= -1
+        ballAngle = - PI - ballAngle
         ballX = width-ballRadius
     elif(ballX-ballRadius < 0):
-        ballSpeedX *= - 1
+        ballAngle = - PI - ballAngle
         ballX = ballRadius
         
-    if(racketY < ballY+ballRadius < racketY+racketHeight and ballSpeedY > 0):
+    if(racketY < ballY+ballRadius < racketY+racketHeight and speedY < 0):
         if(racketX < ballX < racketX + racketWidth):
-            ballSpeedY *= -1
+            ratio = (ballX - racketX - racketWidth/2) /  (racketWidth/2)
+            #print("position de la balle sur la raquette : ")
+            #print(ratio)
+            ballAngle = PI/2 - ratio * ballAngleMax
             ballY = racketY-ballRadius
     
     #if(racketY < ballY+ballRadius < racketY+racketHeight
