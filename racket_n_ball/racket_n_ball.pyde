@@ -48,8 +48,10 @@ def draw():
     
     drawRacket()
     drawBall()
-    drawBricks(150, 50, 50, 20)
-    drawBricks(250, 50, 50, 20)
+    
+    i=0
+    for i in range(0, 8):
+        drawBricks(i*50, 50, 50, 20)
     
 def drawRacket():
     global racketX, racketY, racketWidth, racketHeight
