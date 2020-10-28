@@ -46,6 +46,7 @@ def setup():
     
 def draw():
     global deltaTime, lastFrameTime
+    global bricks
     
     clear()
     
@@ -57,7 +58,10 @@ def draw():
     
     #len = longueur
     for i in range(len(bricks)):
-        drawBricks(i*50, 50, 50, 20)
+        if(bricks[i] > 0):
+            drawBricks(i*50, 50, 50, 20, i)
+    
+    print(bricks)
     
 def drawRacket():
     global racketX, racketY, racketWidth, racketHeight
@@ -110,9 +114,10 @@ def drawBall():
 
 #une fonction peut prendre des paremètres
     
-def drawBricks(bX, bY, bW, bH):
+def drawBricks(bX, bY, bW, bH, index):
     
     global ballX, ballY, ballRadius, ballSpeedX, ballSpeedY, ballAngle
+    global bricks
     
     rect(bX, bY, bW, bH)
     
@@ -120,17 +125,21 @@ def drawBricks(bX, bY, bW, bH):
         if(bY < ballY + ballRadius < bY + bH and ballSpeedY < 0):
             ballAngle = -ballAngle
             ballY = bY - ballRadius
+            bricks[index] = 0
         elif(bY < ballY - ballRadius < bY + bH and ballSpeedY > 0):
             ballAngle = -ballAngle
             ballY = bY + bH + ballRadius
+            bricks[index] = 0
                 
     if(bY < ballY < bY + bH):
         if(bX < ballX - ballRadius < bX + bW and ballSpeedX > 0):
             ballAngle = PI - ballAngle
             ballX = bX - ballRadius
+            bricks[index] = 0
         elif(bX < ballX + ballRadius < bX + bW and ballSpeedX < 0):
             ballAngle = PI - ballAngle
             ballX = bX + bW + ballRadius
+            bricks[index] = 0
             
     '''
     if(bY < ballY+ballRadius <  bY+bH and ballSpeedY < 0):
