@@ -17,6 +17,8 @@ racketY = 0
 lastFrameTime = 0
 deltaTime = 0
 
+bricks = [1, 1, 1, 1, 1, 1, 1, 1]
+
 #ici on definit la fonction setup qui sera exécuté comme point d'entré dans mon code
 def setup():
     #on dit qu'on va faire référence à la variable global
@@ -24,6 +26,10 @@ def setup():
     global lastFrameTime
     #on appel la fonction print pour écrire dans la console
     print("Hello World")
+    #affiche le tableau bricks dans la console
+    print(bricks)
+    #affiche la valeur de bricks à l'index 0
+    print(bricks[0])
     #on definit la taille de la fenêtre
     size(400, 400)
     #vide la fenêtre
@@ -49,8 +55,8 @@ def draw():
     drawRacket()
     drawBall()
     
-    i=0
-    for i in range(0, 8):
+    #len = longueur
+    for i in range(len(bricks)):
         drawBricks(i*50, 50, 50, 20)
     
 def drawRacket():
